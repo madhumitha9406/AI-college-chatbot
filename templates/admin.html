@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusAI Admin</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<main class="main admin-page">
+
+    <a href="/">
+        ← Back to CampusAI
+    </a>
+
+    <header class="admin-heading">
+        <div>
+            <small>COLLEGE ASSISTANT</small>
+            <h1>📊 Student Query History</h1>
+            <p>Questions asked in CampusAI and the answers provided.</p>
+        </div>
+        <div class="admin-total">
+            <small>Total questions</small>
+            <strong>{{ queries|length }}</strong>
+        </div>
+    </header>
+
+    <div class="chat-box">
+
+        <div class="table-scroll">
+        <table class="query-table">
+
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>Answer</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for query in queries %}
+            <tr>
+                <td>{{ query.question }}</td>
+                <td>{{ query.answer }}</td>
+                <td>{{ query.created_at }}</td>
+                <td>
+                    <form class="delete-query-form"
+                          action="{{ url_for('delete_query', query_id=query.id) }}"
+                          method="post"
+                          onsubmit="return confirm('Delete this question from history? This cannot be undone.');">
+                        <button class="delete-query" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td class="empty-history" colspan="4">
+                    No student questions yet. Questions sent through AI Chat will appear here.
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+</main>
+
+</body>
+
+</html>

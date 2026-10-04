@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusAI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ✦
+            </div>
+
+            <div>
+                <h2>CampusAI</h2>
+                <p>College Assistant</p>
+            </div>
+
+        </div>
+
+
+        <nav aria-label="Main navigation">
+
+            <a class="active" href="#dashboard" data-section="dashboard">
+                🏠 Dashboard
+            </a>
+
+            <a href="#chat" data-section="chat">
+                💬 AI Chat
+            </a>
+
+            <a href="#topics" data-section="topics">
+                📚 Topics
+            </a>
+
+            <a href="/admin">
+                📊 Admin
+            </a>
+
+        </nav>
+
+
+        <div class="online">
+
+            <span></span>
+
+            <strong>
+                AI Assistant Online
+            </strong>
+
+            <p>
+                Ready to answer college queries.
+            </p>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main" id="dashboard">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <small>
+                    SMART CAMPUS SOLUTION
+                </small>
+
+                <h1>
+                    Good day, Student 👋
+                </h1>
+
+            </div>
+
+            <div class="profile">
+
+                <div class="avatar">
+                    S
+                </div>
+
+                <div>
+                    <b>Student</b>
+                    <small>Campus User</small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-text">
+
+                <span class="badge">
+                    ✦ AI POWERED
+                </span>
+
+                <h2>
+                    Your campus questions,
+                    <span>answered instantly.</span>
+                </h2>
+
+                <p>
+                    Ask CampusAI about exams,
+                    attendance, fees, library,
+                    placements, hostel and more.
+                </p>
+
+                <a href="#chat"
+                   class="start-btn">
+
+                    Start Chatting →
+
+                </a>
+
+            </div>
+
+
+            <div class="robot">
+
+                <div class="robot-circle">
+                    ✦
+                </div>
+
+                <div class="floating one">
+                    💡 Smart Answers
+                </div>
+
+                <div class="floating two">
+                    ⚡ Instant Help
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats">
+
+            <div class="stat">
+
+                <div class="stat-icon">
+                    💬
+                </div>
+
+                <div>
+
+                    <small>
+                        Total Queries
+                    </small>
+
+                    <h2 id="queryCount">
+                        0
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <small>
+                        Answered
+                    </small>
+
+                    <h2 id="answerCount">
+                        0
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-icon">
+                    📚
+                </div>
+
+                <div>
+
+                    <small>
+                        Topics
+                    </small>
+
+                    <h2 id="topicCount">
+                        10
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CHAT -->
+
+        <section id="chat">
+
+            <div class="section-title">
+
+                <div>
+
+                    <small>
+                        AI ASSISTANT
+                    </small>
+
+                    <h2>
+                        Chat with CampusAI
+                    </h2>
+
+                </div>
+
+                <button id="clear">
+                    Clear Chat
+                </button>
+
+            </div>
+
+
+            <div class="chat-box">
+
+                <!-- CHAT HEADER -->
+
+                <div class="chat-header">
+
+                    <div class="bot-icon">
+                        ✦
+                    </div>
+
+                    <div>
+
+                        <b>
+                            CampusAI Assistant
+                        </b>
+
+                        <small>
+                            🟢 Online • Instant replies
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MESSAGES -->
+
+                <div id="messages"
+                     class="messages"
+                     aria-live="polite"
+                     aria-relevant="additions">
+
+                    <div class="message bot">
+
+                        <div class="small-bot">
+                            ✦
+                        </div>
+
+                        <div class="bubble">
+
+                            Hello! 👋
+
+                            <br>
+
+                            I'm CampusAI.
+
+                            <br>
+
+                            How can I help you
+                            today?
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUICK QUESTIONS -->
+
+                <div class="quick-label">Popular questions</div>
+                <div class="quick">
+                    {% for faq in faqs %}
+                    <button type="button" data-question="{{ faq.question }}">
+                        {{ faq.icon }} {{ faq.category }}
+                    </button>
+                    {% endfor %}
+                </div>
+
+
+                <!-- INPUT -->
+
+                <form id="chatForm"
+                      class="input-area">
+
+                    <input
+                        id="message"
+                        type="text"
+                        placeholder="Ask your college question..."
+                        autocomplete="off"
+                        maxlength="500"
+                        aria-label="Your question">
+
+                    <button id="sendButton" type="submit">
+                        Send ➤
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- TOPICS -->
+
+        <section id="topics"
+                 class="topics">
+
+            <div class="section-title">
+
+                <div>
+
+                    <small>
+                        EXPLORE
+                    </small>
+
+                    <h2>
+                        What can I help with?
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="topic-grid">
+                {% for faq in faqs %}
+                <button type="button" data-question="{{ faq.question }}">
+                    <span class="topic-icon">{{ faq.icon }}</span>
+                    <b>{{ faq.category }}</b>
+                    <small>{{ faq.question }}</small>
+                </button>
+                {% endfor %}
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            CampusAI • AI-Powered College Query Assistant
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
